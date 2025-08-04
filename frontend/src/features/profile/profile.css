@@ -1,0 +1,237 @@
+/* Import Google Font - Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Basic Reset & Global Styles */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+/* App Container */
+.app-container {
+  height: 100vh;
+  background-color: #e0f2fe; /* Light blue background */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Profile Card */
+.profile-card {
+  background-color: #ffffff; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 0; 
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 100%;
+  background-color: #f0f4f8; 
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid #d1d8e0; 
+  text-align: center;
+}
+
+/* Profile Picture Container */
+.profile-pic-container {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+/* Profile Picture Image */
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); 
+}
+
+/* User Name in Sidebar */
+.user-name-sidebar {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333333; /* Darker text */
+  margin-bottom: 5px;
+}
+
+/* Role in Sidebar */
+.role-sidebar {
+  color: #007bff; /* Blue color */
+  font-weight: normal;
+  margin-bottom: 20px;
+}
+
+/* Navigation Menu */
+.nav-menu {
+  width: 100%;
+}
+
+/* Navigation List */
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Logout Button */
+.logout-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 15px;
+  color: #dc3545; /* Red color */
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: transparent;
+  border: 1px solid #dc3545; /* Simple border */
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+/* SVG Icon size */
+.logout-button svg {
+  height: 20px;
+  width: 20px;
+  margin-right: 8px;
+}
+
+/* Main Content Area */
+.main-content {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+
+/* User Name in Main Content */
+.user-name-main {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 5px;
+}
+
+/* Role in Main Content */
+.role-main {
+  font-size: 20px;
+  color: #007bff;
+  font-weight: normal;
+  margin-bottom: 25px;
+}
+
+/* Section Heading */
+.section-heading {
+  font-size: 22px;
+  font-weight: bold;
+  color: #555555;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #cccccc;
+  width: 100%;
+}
+
+/* Skills Section */
+.skills-section {
+  margin-bottom: 25px;
+  width: 100%;
+}
+
+/* Skills Grid */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Default to single column */
+  gap: 15px;
+}
+
+/* Skill Item */
+.skill-item {
+  background-color: #f8f9fa; /* Lighter gray background */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+/* Skill Title */
+.skill-title {
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 5px;
+}
+
+/* Skill Description */
+.skill-description {
+  color: #666666;
+  font-size: 14px;
+}
+
+/* Projects Section */
+.projects-section {
+  width: 100%;
+}
+
+/* Projects List */
+.projects-list {
+  list-style-type: disc;
+  padding-left: 25px;
+  color: #666666;
+  margin-top: 10px;
+}
+
+/*  (Media Queries) */
+@media screen and (min-width: 768px) {
+  .profile-card {
+    border-radius: 12px; 
+    flex-direction: row;
+  }
+
+  .sidebar {
+    width: fit-content;
+    border-right: 1px solid #d1d8e0;
+    border-bottom: none;
+  }
+
+  .main-content {
+    width: 70%; 
+  }
+
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr); 
+  }
+}
+
+/* Home link */
+.sidebar .nav-list li a{
+  text-decoration: none;
+  color: black;
+  
+  
+}
+
+
+@media (min-width: 1024px) {
+  .skills-grid {
+    grid-template-columns: repeat(3, 1fr); 
+  }
+}
+
+
