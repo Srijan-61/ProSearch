@@ -26,11 +26,11 @@ const userSchema = new Schema({
   // Profile Information
   fullName: {
     type: String,
-    default: "Srijan Bhandari",
+    default: "Pro Name",
   },
   role: {
     type: String,
-    default: "Frontend Developer",
+    default: "Professional",
   },
   skills: {
     type: String,

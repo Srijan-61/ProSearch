@@ -1,4 +1,4 @@
-body{
+body {
   padding: 0;
   margin: 0;
 }
@@ -10,7 +10,7 @@ body{
 
 .prosearch-home header {
   background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   padding: 0;
 }
 
@@ -131,7 +131,7 @@ body{
   background: #e3f2fd;
   padding: 2.5rem 0 3rem 0;
   margin: 5vh 5vw;
-  border-radius:5px ;
+  border-radius: 5px;
 }
 
 .prosearch-home .search-results .container {
@@ -160,7 +160,7 @@ body{
   padding: 2rem 2.5rem;
   border-radius: 18px;
   text-align: center;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
   min-width: 220px;
   max-width: 280px;
   margin: 0.5rem 0;
@@ -172,7 +172,7 @@ body{
 
 .prosearch-home .result-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
 .prosearch-home .user-avatar {
@@ -229,7 +229,6 @@ body{
   padding: 2px 0;
 }
 
-
 .prosearch-home .professionals {
   background: #f5f8fd;
   padding: 2.5rem 0 3rem 0;
@@ -249,7 +248,7 @@ body{
   padding: 2rem 2.5rem;
   border-radius: 18px;
   text-align: center;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
   min-width: 220px;
   max-width: 240px;
   margin: 0.5rem 0;

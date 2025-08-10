@@ -41,21 +41,21 @@ function Profile() {
       let response;
       if (userId) {
         // Fetching another user's profile
-        console.log("Fetching other user profile for ID:", userId);
+        // console.log("Fetching other user profile for ID:", userId);
         response = await axiosInstance.get(`/user/user/${userId}`);
         setIsOwnProfile(false);
       } else {
         // Fetching own profile
-        console.log("Fetching own profile");
+        // console.log("Fetching own profile");
         response = await axiosInstance.get("/user/profile");
         setIsOwnProfile(true);
       }
 
-      console.log("Profile response:", response.data);
+      // console.log("Profile response:", response.data);
       setUser(response.data.user);
       setEditForm({
         fullName: response.data.user.fullName || "",
-        role: response.data.user.role || "",
+        role: response.data.user.role || "Professional",
         skillsText: response.data.user.skills || "",
       });
     } catch (error) {
@@ -93,7 +93,7 @@ function Profile() {
     if (user) {
       setEditForm({
         fullName: user.fullName || "",
-        role: user.role || "",
+        role: user.role || "Professional",
         skillsText: user.skills || "",
       });
     }
@@ -101,8 +101,8 @@ function Profile() {
 
   const handleSave = async () => {
     try {
-      console.log("Save button clicked!");
-      console.log("Current editForm:", editForm);
+      // console.log("Save button clicked!");
+      // console.log("Current editForm:", editForm);
 
       const requestData = {
         fullName: editForm.fullName,
@@ -110,11 +110,11 @@ function Profile() {
         skills: editForm.skillsText,
       };
 
-      console.log("Sending request data:", requestData);
+      // console.log("Sending request data:", requestData);
 
       const response = await axiosInstance.put("/user/profile", requestData);
 
-      console.log("Save response:", response.data);
+      // console.log("Save response:", response.data);
 
       setUser(response.data.user);
       setIsEditing(false);
@@ -151,9 +151,8 @@ function Profile() {
 
           {/* User Name */}
           <h2 className="user-name-sidebar">{user.fullName}</h2>
-
-          {/* Role */}
-          <p className="role-sidebar">{user.role}</p>
+          <br />
+          <br />
 
           {/* Navigation Links */}
           <nav className="nav-menu">
@@ -236,8 +235,6 @@ function Profile() {
                     skillsText: e.target.value,
                   }))
                 }
-                rows={5}
-                cols={30}
               />
             </div>
 

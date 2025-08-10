@@ -3,12 +3,6 @@ import app from "./app.js";
 import mongoose from "mongoose";
 import User from "./models/user.model.js";
 
-// Set JWT_SECRET if not already set
-if (!process.env.JWT_SECRET) {
-  process.env.JWT_SECRET =
-    "your_jwt_secret_key_here_make_it_long_and_secure_for_development";
-  console.log("JWT_SECRET set for development");
-}
 
 const port = 3000;
 //Routes
@@ -67,11 +61,11 @@ async function seedDefaultProfiles() {
       });
     }
 
-    if (usersWithoutProfile.length > 0) {
-      console.log(
-        `Seeded default profile data for ${usersWithoutProfile.length} users`
-      );
-    }
+    // if (usersWithoutProfile.length > 0) {
+    //   console.log(
+    //     `Seeded default profile data for ${usersWithoutProfile.length} users`
+    //   );
+    // }
   } catch (error) {
     console.error("Error seeding default profiles:", error);
   }
@@ -89,8 +83,7 @@ async function run() {
     // Seed default profile data
     await seedDefaultProfiles();
   } finally {
-    // Ensures that the client will close when you finish/error
-    //await mongoose.disconnect();
+
   }
 }
 run().catch(console.dir);
