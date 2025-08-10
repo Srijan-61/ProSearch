@@ -34,3 +34,69 @@ export async function searchUsers(req, res) {
         res.status(500).json({message: 'Server error',error: err.message});
     }
 }
+
+// GET CURRENT USER PROFILE
+export async function getCurrentUserProfile(req, res) {
+    try {
+        console.log('getCurrentUserProfile called with user:', req.user);
+        const user = await User.findById(req.user.userId).select('-password');
+        console.log('Found user:', user);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).json({ user });
+    } catch (err) {
+        console.error('Error in getCurrentUserProfile:', err);
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+}
+
+// UPDATE USER PROFILE
+export async function updateUserProfile(req, res) {
+    try {
+        console.log('updateUserProfile called with body:', req.body);
+        console.log('User ID from token:', req.user.userId);
+        
+        const { fullName, role, skills } = req.body;
+        
+        const updateData = {};
+        if (fullName) updateData.fullName = fullName;
+        if (role) updateData.role = role;
+        if (skills) updateData.skills = skills;
+
+        console.log('Update data:', updateData);
+
+        const user = await User.findByIdAndUpdate(
+            req.user.userId,
+            updateData,
+            { new: true, runValidators: true }
+        ).select('-password');
+
+        console.log('Updated user:', user);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ 
+            message: 'Profile updated successfully',
+            user 
+        });
+    } catch (err) {
+        console.error('Error in updateUserProfile:', err);
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+}
+
+// GET USER PROFILE BY ID
+export async function getUserProfileById(req, res) {
+    try {
+        const user = await User.findById(req.params.id).select('-password');
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).json({ user });
+    } catch (err) {
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+}
