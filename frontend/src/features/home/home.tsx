@@ -47,7 +47,7 @@ export default function Home() {
 
   return (
     <div className="prosearch-home">
-      <header>
+      <header className="site-header">
         <div className="container-nav">
           <div className="logo">ProSearch</div>
           <nav>
@@ -61,7 +61,14 @@ export default function Home() {
       </header>
 
       <section className="search-section">
-        <h1>Find the right professional for your needs</h1>
+        <h1 className="hero-title">
+          Find the <span className="highlight">right professional</span> for
+          your needs
+        </h1>
+        <p className="hero-subtext">
+          Search and connect with skilled professionals in tech, design, and
+          more.
+        </p>
         <div className="search-bar">
           <input
             type="text"
@@ -77,19 +84,25 @@ export default function Home() {
       <section className="search-results">
         <div className="container">
           <h2>Search Results</h2>
-          <div className="results-grid">
-            {searchResults.map((user) => (
-              <div
-                key={user._id}
-                className="result-card"
-                onClick={() => handleUserClick(user._id)}
-                style={{ cursor: "pointer" }}
-              >
-                <h3>{user.fullName || user.username}</h3>
-                <p className="user-role">{user.role || "Professional"}</p>
-              </div>
-            ))}
-          </div>
+          {searchResults.length === 0 ? (
+            <p className="no-results">
+              No results yet. Try searching for a skill or profession.
+            </p>
+          ) : (
+            <div className="results-grid">
+              {searchResults.map((user) => (
+                <div
+                  key={user._id}
+                  className="result-card"
+                  onClick={() => handleUserClick(user._id)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <h3>{user.fullName || user.username}</h3>
+                  <p className="user-role">{user.role || "Professional"}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

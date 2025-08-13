@@ -3,6 +3,7 @@ import profilePic from "../../assets/profile-pic.jpg";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axiosInstance from "../../shared/config/axiosinstance";
+import { Link } from "react-router-dom";
 
 interface User {
   _id: string;
@@ -151,6 +152,7 @@ function Profile() {
 
           {/* User Name */}
           <h2 className="user-name-sidebar">{user.fullName}</h2>
+
           <br />
           <br />
 
@@ -158,7 +160,7 @@ function Profile() {
           <nav className="nav-menu">
             <ul className="nav-list">
               <li>
-                <a href="./home">Home</a>
+                <Link to="/home">Home</Link>
               </li>
               {isOwnProfile && (
                 <>

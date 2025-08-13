@@ -1,289 +1,168 @@
 body {
   padding: 0;
   margin: 0;
+  font-family: "Inter", sans-serif;
 }
 
+/* General Layout */
 .prosearch-home {
   background: #f5f8fd;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.prosearch-home header {
+/* Header */
+.site-header {
   background: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  padding: 0;
 }
 
-.prosearch-home .container-nav {
+.container-nav {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 16px 24px; /* 8-point spacing system */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
 }
 
-.prosearch-home .logo {
+.logo {
   font-size: 2rem;
   font-weight: 700;
   color: #2346a0;
-  letter-spacing: 1px;
 }
 
-.prosearch-home nav ul {
+nav ul {
   display: flex;
   list-style: none;
-  gap: 2rem;
-  align-items: center;
+  gap: 24px;
 }
 
-.prosearch-home nav ul li a {
+nav ul li a {
   text-decoration: none;
   color: #222;
   font-weight: 500;
-  font-size: 1.1rem;
   transition: color 0.2s;
 }
 
-.prosearch-home nav ul li a:hover {
+nav ul li a:hover {
   color: #2346a0;
 }
 
-.prosearch-home nav ul li span {
-  color: #2346a0;
-  font-weight: 600;
-  font-size: 1rem;
-}
-
-.prosearch-home .btn-signin {
-  background: #2346a0;
-  color: #fff !important;
-  padding: 0.5rem 1.5rem;
-  border-radius: 7px;
-  font-weight: 600;
-  margin-left: 1rem;
-  border: none;
-  transition: background 0.2s;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.prosearch-home .btn-signin:hover {
-  background: #1a357a;
-}
-
-.prosearch-home .search-section {
+/* Hero Section */
+.search-section {
   background: linear-gradient(90deg, #eaf1fb 0%, #dbeafe 100%);
-  padding: 3rem 0 2rem 0;
+  padding: 64px 16px;
   text-align: center;
 }
 
-.prosearch-home .search-section h1 {
+.hero-title {
   font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
-  color: #222;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 16px;
 }
 
-.prosearch-home .search-bar {
+.highlight {
+  color: #2346a0;
+}
+
+.hero-subtext {
+  font-size: 1.1rem;
+  color: #555;
+  max-width: 600px;
+  margin: 0 auto 32px;
+  line-height: 1.5;
+}
+
+/* Search Bar */
+.search-bar {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
-  margin: 0 auto;
+  gap: 16px;
   max-width: 700px;
+  margin: 0 auto;
 }
 
-.prosearch-home .search-bar input {
-  width: 350px;
-  padding: 0.8rem 1rem;
-  border-radius: 7px;
+.search-bar input {
+  flex: 1;
+  min-width: 280px;
+  padding: 12px 16px;
+  border-radius: 999px;
   border: 1px solid #cfd8dc;
   font-size: 1rem;
-  outline: none;
 }
 
-.prosearch-home .search-bar button {
+.search-bar button {
   background: #2346a0;
   color: #fff;
-  padding: 0.8rem 2.2rem;
+  padding: 12px 24px;
   border: none;
-  border-radius: 7px;
+  border-radius: 999px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
-  margin: 0;
-  width: auto;
 }
 
-.prosearch-home .search-bar button:hover:not(:disabled) {
+.search-bar button:hover {
   background: #1a357a;
 }
 
-.prosearch-home .search-bar button:disabled {
-  background: #9ca3af;
-  cursor: not-allowed;
-}
-
-/* Search Results Styles */
-.prosearch-home .search-results {
-  background: #e3f2fd;
-  padding: 2.5rem 0 3rem 0;
-  margin: 5vh 5vw;
-  border-radius: 5px;
-}
-
-.prosearch-home .search-results .container {
+/* Search Results */
+.search-results {
+  background: #f0f7ff;
+  padding: 48px 16px;
+  margin: 40px auto;
+  border-radius: 12px;
+  width: 90%;
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
 }
 
-.prosearch-home .search-results h2 {
+.search-results h2 {
   font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
-  color: #222;
   text-align: center;
+  margin-bottom: 24px;
 }
 
-.prosearch-home .results-grid {
+.no-results {
+  text-align: center;
+  color: #777;
+}
+
+.results-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
-  justify-items: center;
+  gap: 24px;
 }
 
-.prosearch-home .result-card {
+.result-card {
   background: #fff;
-  padding: 2rem 2.5rem;
-  border-radius: 18px;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   text-align: center;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
-  min-width: 220px;
-  max-width: 280px;
-  margin: 0.5rem 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.prosearch-home .result-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+.result-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
 }
 
-.prosearch-home .user-avatar {
-  margin-bottom: 1.2rem;
-}
-
-.prosearch-home .result-card img {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.prosearch-home .result-card h3 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 0.4rem;
-  color: #222;
-}
-
-.prosearch-home .result-card p {
-  font-size: 1rem;
-  color: #6b7280;
-  font-weight: 500;
-}
-
-.prosearch-home .user-role {
+.user-role {
   color: #007bff;
   font-weight: 600;
-  margin-bottom: 10px;
+  margin-top: 8px;
 }
 
-.prosearch-home .user-skills {
-  margin-top: 10px;
-  text-align: left;
-}
-
-.prosearch-home .user-skills p {
-  margin-bottom: 5px;
-  font-weight: 600;
-  color: #333;
-}
-
-.prosearch-home .user-skills ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.prosearch-home .user-skills li {
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 2px;
-  padding: 2px 0;
-}
-
-.prosearch-home .professionals {
-  background: #f5f8fd;
-  padding: 2.5rem 0 3rem 0;
-}
-
-.prosearch-home .professionals .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.prosearch-home .card {
-  background: #fff;
-  padding: 2rem 2.5rem;
-  border-radius: 18px;
+/* Footer */
+footer {
   text-align: center;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
-  min-width: 220px;
-  max-width: 240px;
-  margin: 0.5rem 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.prosearch-home .card img {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 1.2rem;
-}
-
-.prosearch-home .card h3 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 0.4rem;
-  color: #222;
-}
-
-.prosearch-home .card p {
-  font-size: 1rem;
-  color: #6b7280;
-  font-weight: 500;
-}
-
-.prosearch-home footer {
-  text-align: center;
-  padding: 1.5rem 0;
+  padding: 24px;
   background: #2346a0;
   color: #fff;
   margin-top: auto;
-  font-size: 1.1rem;
-  width: 100%;
 }
