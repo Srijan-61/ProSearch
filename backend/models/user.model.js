@@ -26,7 +26,6 @@ const userSchema = new Schema({
   // Profile Information
   fullName: {
     type: String,
-    default: "Pro Name",
   },
   role: {
     type: String,

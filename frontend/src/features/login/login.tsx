@@ -1,58 +1,72 @@
-import { useState, type ChangeEvent, type FormEvent } from "react";
-import "./login.css";
 import { useNavigate } from "react-router-dom";
+import "./login.css";
 import { login } from "../../shared/config/api";
-import type { AxiosResponse, AxiosError } from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useForm } from "react-hook-form";
 
 export default function Login() {
-  const [formData, setFormData] = useState({ username: "", password: "" });
   const navigate = useNavigate();
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-    login(formData)
-      .then((res: AxiosResponse) => {
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("currentUser", JSON.stringify(res.data.user));
-        navigate("/home");
-      })
-      .catch((error: AxiosError) => {
-        const message =
-          (error.response?.data as { message?: string })?.message ??
-          "Server Error";
-        alert(message);
-      })
-      .finally(() => {
-        console.log("Okay");
-      });
+  const onSubmit = async (data: any) => {
+    try {
+      const res = await login(data); // Call login API
+      localStorage.setItem("token", res.data.token); // Save token
+      localStorage.setItem("currentUser", JSON.stringify(res.data.user)); // Save user info
+      toast.success("Login successful"); // Success toast
+      navigate("/home"); // Redirect to home page
+    } catch (error: any) {
+      toast.error("Login failed"); // Error toast
+    }
   };
+
+  // Show toast for validation errors
+  const showErrorToast = (field: string, message: string) => {
+    toast.error(`${field}: ${message}`);
+  };
+
   return (
     <div className="login-container">
       <div className="login-form-card">
-        <form className="login-form" onSubmit={handleSubmit}>
+        <form
+          className="login-form"
+          onSubmit={handleSubmit(onSubmit, (validationErrors) => {
+            // Trigger toast for each validation error
+            Object.keys(validationErrors).forEach((key) => {
+              const error = validationErrors[key];
+              showErrorToast(key, error.message as string);
+            });
+          })}
+        >
           <label className="login-title"> Login</label>
+
           <input
-            name="username"
-            onChange={handleChange}
-            value={formData.username}
             placeholder="Username"
-            type="text"
+            {...register("username", { required: "Username is required" })}
           />
+
           <input
-            name="password"
-            onChange={handleChange}
-            value={formData.password}
             placeholder="Password"
             type="password"
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 6,
+                message: "Password must be at least 6 characters",
+              },
+            })}
           />
+
           <button className="login-form-button" type="submit">
-           Login
+            Login
           </button>
+
           <div className="login-register-link">
             Don't have an account?{" "}
             <span

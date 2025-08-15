@@ -1,16 +1,18 @@
 import "./profile.css";
 import profilePic from "../../assets/profile-pic.jpg";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axiosInstance from "../../shared/config/axiosinstance";
-import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface User {
+  //TS way of defining structure of oject
   _id: string;
   username: string;
   fullName: string;
   role: string;
-  skills: string; // changed to string
+  skills: string;
 }
 
 interface EditFormData {
@@ -20,9 +22,9 @@ interface EditFormData {
 }
 
 function Profile() {
-  const navigate = useNavigate();
-  const { userId } = useParams();
-  const [user, setUser] = useState<User | null>(null);
+  const navigate = useNavigate(); //react router hook-route to another page
+  const { userId } = useParams(); // react router hook-get variable from url
+  const [user, setUser] = useState<User | null>(null); //user exits or null and default null
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<EditFormData>({
     fullName: "",
@@ -36,59 +38,47 @@ function Profile() {
     fetchUserProfile();
   }, [userId]);
 
+  // fetch data from backend
   const fetchUserProfile = async () => {
-    try {
-      console.log("Fetching user profile...");
-      let response;
-      if (userId) {
-        // Fetching another user's profile
-        // console.log("Fetching other user profile for ID:", userId);
-        response = await axiosInstance.get(`/user/user/${userId}`);
-        setIsOwnProfile(false);
-      } else {
-        // Fetching own profile
-        // console.log("Fetching own profile");
-        response = await axiosInstance.get("/user/profile");
-        setIsOwnProfile(true);
-      }
-
-      // console.log("Profile response:", response.data);
-      setUser(response.data.user);
-      setEditForm({
-        fullName: response.data.user.fullName || "",
-        role: response.data.user.role || "Professional",
-        skillsText: response.data.user.skills || "",
-      });
-    } catch (error) {
-      console.error("Error fetching profile:", error);
-      if (error && typeof error === "object" && "message" in error) {
-        const errorObj = error as {
-          message: string;
-          response?: { data: unknown; status: number; statusText: string };
-        };
-        console.error("Error details:", {
-          message: errorObj.message,
-          response: errorObj.response?.data,
-          status: errorObj.response?.status,
-          statusText: errorObj.response?.statusText,
-        });
-      }
-    } finally {
-      setLoading(false);
+    let response;
+    if (userId) {
+      // Fetching another user's profile
+      response = await axiosInstance.get(`/user/user/${userId}`);
+      setIsOwnProfile(false);
+    } else {
+      // Fetching own profile
+      response = await axiosInstance.get("/user/profile");
+      setIsOwnProfile(true);
     }
+
+    // Get logged-in username from localStorage
+    const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+
+    setUser(response.data.user); // store user data from backend to useState
+    setEditForm({
+      //initialize or update the form used for editing profile
+      fullName: response.data.user.fullName || currentUser?.username || "",
+      role: response.data.user.role || "Professional",
+      skillsText: response.data.user.skills || "",
+    });
+
+    setLoading(false);
   };
 
   const handleLogout = () => {
+    // Clears the authentication token and the stored user info from localStorage
     localStorage.removeItem("token");
     localStorage.removeItem("currentUser");
     navigate("/login");
   };
 
   const handleEdit = () => {
+    // triggers the edit modal to appear
     setIsEditing(true);
   };
 
   const handleCancel = () => {
+    //Closes the edit modal
     setIsEditing(false);
     // Reset form to current user data
     if (user) {
@@ -100,35 +90,19 @@ function Profile() {
     }
   };
 
+  //Sends a PUT request to update the profile on the backend
   const handleSave = async () => {
-    try {
-      // console.log("Save button clicked!");
-      // console.log("Current editForm:", editForm);
+    // Collects the data from the edit form into requestData
+    const requestData = {
+      fullName: editForm.fullName,
+      role: editForm.role,
+      skills: editForm.skillsText,
+    };
 
-      const requestData = {
-        fullName: editForm.fullName,
-        role: editForm.role,
-        skills: editForm.skillsText,
-      };
-
-      // console.log("Sending request data:", requestData);
-
-      const response = await axiosInstance.put("/user/profile", requestData);
-
-      // console.log("Save response:", response.data);
-
-      setUser(response.data.user);
-      setIsEditing(false);
-      console.log("Profile updated successfully!");
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      if (error && typeof error === "object" && "response" in error) {
-        const errorObj = error as {
-          response?: { data: unknown; status: number; statusText: string };
-        };
-        console.error("Error response:", errorObj.response);
-      }
-    }
+    const response = await axiosInstance.put("/user/profile", requestData); //Sends an HTTP PUT request to the endpoint
+    setUser(response.data.user); //Updates the user state with the newly updated profile
+    setIsEditing(false);
+    toast.success("Profile updated sucessfully");
   };
 
   if (loading) {

@@ -1,8 +1,9 @@
-
 import { useState } from "react";
 import "./register.css";
 import { registerApi } from "../../shared/config/api";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Register() {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
@@ -21,11 +22,12 @@ function Register() {
     setError("");
     try {
       await registerApi(form);
-      alert("Registration successful! Please login.");
+      toast.success("Registration successful! Please login.");
       navigate("/");
     } catch (err) {
       const error = err as { response?: { data?: { message?: string } } };
       setError(error.response?.data?.message || "Registration failed");
+      toast.error(`${err}`)
     } finally {
       setLoading(false);
     }
@@ -67,7 +69,6 @@ function Register() {
           >
             Submit
           </button>
-          {error && <div className="register-error-message">{error}</div>}
         </form>
         <div className="register-login-link">
           Already have an account?{" "}
