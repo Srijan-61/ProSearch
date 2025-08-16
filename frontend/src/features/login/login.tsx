@@ -4,56 +4,58 @@ import { login } from "../../shared/config/api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+
+type LoginFormInputs = {
+  username: string;
+  password: string;
+};
 
 export default function Login() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<LoginFormInputs>();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: LoginFormInputs) => {
     try {
-      const res = await login(data); // Call login API
-      localStorage.setItem("token", res.data.token); // Save token
-      localStorage.setItem("currentUser", JSON.stringify(res.data.user)); // Save user info
-      toast.success("Login successful"); // Success toast
-      navigate("/home"); // Redirect to home page
+      setLoading(true);
+      const res = await login(data);
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("currentUser", JSON.stringify(res.data.user));
+      toast.success("Login successful");
+      navigate("/home");
     } catch (error: any) {
-      toast.error("Login failed"); // Error toast
+      const message = error.response?.data?.message || "Login failed";
+      toast.error(message);
+    } finally {
+      setLoading(false);
     }
-  };
-
-  // Show toast for validation errors
-  const showErrorToast = (field: string, message: string) => {
-    toast.error(`${field}: ${message}`);
   };
 
   return (
     <div className="login-container">
       <div className="login-form-card">
-        <form
-          className="login-form"
-          onSubmit={handleSubmit(onSubmit, (validationErrors) => {
-            // Trigger toast for each validation error
-            Object.keys(validationErrors).forEach((key) => {
-              const error = validationErrors[key];
-              showErrorToast(key, error.message as string);
-            });
-          })}
-        >
-          <label className="login-title"> Login</label>
+        <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
+          <label className="login-title">Login</label>
 
           <input
             placeholder="Username"
+            autoComplete="username"
             {...register("username", { required: "Username is required" })}
           />
+          {errors.username && (
+            <p className="error">{errors.username.message}</p>
+          )}
 
           <input
             placeholder="Password"
             type="password"
+            autoComplete="current-password"
             {...register("password", {
               required: "Password is required",
               minLength: {
@@ -62,13 +64,20 @@ export default function Login() {
               },
             })}
           />
+          {errors.password && (
+            <p className="error">{errors.password.message}</p>
+          )}
 
-          <button className="login-form-button" type="submit">
-            Login
+          <button
+            className="login-form-button"
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
           </button>
 
           <div className="login-register-link">
-            Don't have an account?{" "}
+            Don’t have an account?{" "}
             <span
               className="login-register-link-text"
               onClick={() => navigate("/register")}

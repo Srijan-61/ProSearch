@@ -31,9 +31,24 @@ const userSchema = new Schema({
     type: String,
     default: "Professional",
   },
+  address: {
+    type: String,
+    default: "Nepal",
+  },
+  bio: {
+    type: String,
+  },
   skills: {
     type: String,
     default: "",
+  },
+  experience: {
+    type: String,
+    default: "Professional Experience",
+  },
+  profilePic: { 
+    type: String, 
+    default: "" 
   },
   createdAt: {
     type: Date,
