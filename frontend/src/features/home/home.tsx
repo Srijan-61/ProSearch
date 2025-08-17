@@ -8,6 +8,7 @@ interface User {
   username: string;
   fullName: string;
   role: string;
+  bio: string;
   skills: string;
 }
 
@@ -43,6 +44,12 @@ export default function Home() {
 
   const handleUserClick = (userId: string) => {
     navigate(`/profile/${userId}`);
+  };
+
+  // user initial for pp
+  const getInitial = (fullName: string) => {
+    if (!fullName) return "";
+    return fullName[0].toUpperCase();
   };
 
   return (
@@ -97,6 +104,11 @@ export default function Home() {
                   onClick={() => handleUserClick(user._id)}
                   style={{ cursor: "pointer" }}
                 >
+                  <div className="profile-pic-container">
+                    <div className="profile-pic">
+                      {getInitial(user.username)}
+                    </div>
+                  </div>
                   <h3>{user.fullName || user.username}</h3>
                   <p className="user-role">{user.role || "Professional"}</p>
                 </div>

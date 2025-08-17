@@ -1,5 +1,4 @@
 import "./profile.css";
-import profilePic from "../../assets/profile-pic.jpg";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axiosInstance from "../../shared/config/axiosinstance";
@@ -46,7 +45,6 @@ function Profile() {
 
   useEffect(() => {
     fetchUserProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   // Fetch data from backend (own vs other user's profile)
@@ -54,11 +52,11 @@ function Profile() {
     try {
       let response;
       if (userId) {
-        // Fetching another user's profile
+        // Fetching another user's profile data
         response = await axiosInstance.get(`/user/user/${userId}`);
         setIsOwnProfile(false);
       } else {
-        // Fetching own profile
+        // Fetching own profile data
         response = await axiosInstance.get("/user/profile");
         setIsOwnProfile(true);
       }
@@ -96,7 +94,6 @@ function Profile() {
   };
 
   const handleEdit = () => {
-    // triggers the edit modal to appear
     setIsEditing(true);
   };
 
@@ -153,9 +150,9 @@ function Profile() {
   }
 
   // user initial for pp
-  const getInitial = (username: string) => {
-    if (!username) return "";
-    return username[0].toUpperCase();
+  const getInitial = (fullName: string) => {
+    if (!fullName) return "";
+    return fullName[0].toUpperCase();
   };
 
   return (

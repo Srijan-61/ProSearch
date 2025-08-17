@@ -16,16 +16,17 @@ body {
 .site-header {
   background: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  position: sticky;
+  top: 0;
 }
 
 .container-nav {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 16px 24px; 
+  padding: 16px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: sticky;
 }
 
 .logo {

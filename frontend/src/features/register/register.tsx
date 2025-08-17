@@ -1,75 +1,88 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./register.css";
 import { registerApi } from "../../shared/config/api";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
 
-function Register() {
-  const [form, setForm] = useState({ username: "", email: "", password: "" });
+// Define the types for form inputs
+type RegisterFormInputs = {
+  username: string;
+  password: string;
+};
+
+export default function Register() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
+  // useForm hook for handling form validation and data
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormInputs>();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
+  // Function that runs when form is submitted
+  const onSubmit = async (data: RegisterFormInputs) => {
     try {
-      await registerApi(form);
+      setLoading(true); // show loading state
+      await registerApi(data); // call API to register user
       toast.success("Registration successful! Please login.");
-      navigate("/");
-    } catch (err) {
-      const error = err as { response?: { data?: { message?: string } } };
-      setError(error.response?.data?.message || "Registration failed");
-      toast.error(`${err}`)
+      navigate("/"); // go to login page
+    } catch (error: any) {
+      const message = error.response?.data?.message || "Registration failed";
+      toast.error(message);
     } finally {
-      setLoading(false);
+      setLoading(false); // remove loading state
     }
   };
 
   return (
     <div className="register-container">
       <div className="register-form-card">
-        <form className="register-form" onSubmit={handleSubmit}>
+        {/* handleSubmit will validate before running onSubmit */}
+        <form className="register-form" onSubmit={handleSubmit(onSubmit)}>
           <label className="register-title">Register</label>
+
+          {/* Username input */}
           <input
-            type="text"
-            name="username"
-            value={form.username}
             placeholder="Username"
-            onChange={handleChange}
-            required
+            autoComplete="username"
+            {...register("username", { required: "Username is required" })}
           />
-          {/* <input
-            type="email"
-            name="email"
-            value={form.email}
-            placeholder="Email"
-            onChange={handleChange}
-            required
-          /> */}
+          {errors.username && (
+            <p className="error">{errors.username.message}</p>
+          )}
+
+          {/* Password input */}
           <input
-            type="password"
-            name="password"
             placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
-            required
+            type="password"
+            autoComplete="new-password"
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 6,
+                message: "Password must be at least 6 characters",
+              },
+            })}
           />
+          {errors.password && (
+            <p className="error">{errors.password.message}</p>
+          )}
+
+          {/* Submit button */}
           <button
             className="register-form-button"
             type="submit"
             disabled={loading}
           >
-            Submit
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
+
+        {/* Link to go back to login */}
         <div className="register-login-link">
           Already have an account?{" "}
           <span
@@ -83,5 +96,3 @@ function Register() {
     </div>
   );
 }
-
-export default Register;

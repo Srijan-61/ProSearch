@@ -1,20 +1,25 @@
 import User from "../models/user.model.js";
 
 //  GET USER LIST (Authenticated)
-export async function getUserList(req, res) {
-  const users = await User.find().select("-password"); // Exclude passwords
-  res.status(200).json({
-    message: "User list fetched successfully",
-    users: users,
-  });
-}
+// export async function getUserList(req, res) {
+//   const users = await User.find().select("-password"); // Exclude passwords
+//   res.status(200).json({
+//     message: "User list fetched successfully",
+//     users: users,
+//   });
+// }
 
 // SEARCH USERS BY USERNAME
 export async function searchUsers(req, res) {
   const { u } = req.query;
   const users = await User.find({
-    username: { $regex: u, $options: "i" },
-  }).select("-password"); // Exclude passwords
+    $or: [
+      { fullName: { $regex: u, $options: "i" } },
+      { role: { $regex: u, $options: "i" } },
+      { skills: { $regex: u, $options: "i" } },
+    ],
+  }).select("-password"); // Exclude passwords from the results
+
   res.status(200).json({ message: "User search successful", users: users });
 }
 
