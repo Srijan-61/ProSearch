@@ -2,7 +2,7 @@ ProSearch Website
 ProSearch is a modern web application designed to help users find professionals like engineers, designers, and developers. It features a clean, responsive interface and a dynamic search functionality to connect users with the right talent.
 
 🌟 Features
-Professional Search: Search for professionals based on their name.
+Professional Search: Search for professionals based on their name, roles or skills.
 
 Dynamic Search Results: Displays search results in a responsive grid.
 
