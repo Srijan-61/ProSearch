@@ -39,10 +39,8 @@ cd ProSearch
 
 ### Step 2: Setup the backend (server)
 
-```bash
 cd backend
 npm install
-```
 
 Start the server:
 ```bash
