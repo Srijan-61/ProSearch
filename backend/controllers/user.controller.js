@@ -16,7 +16,6 @@ export async function searchUsers(req, res) {
     $or: [
       { fullName: { $regex: u, $options: "i" } },
       { role: { $regex: u, $options: "i" } },
-      { skills: { $regex: u, $options: "i" } },
     ],
   }).select("-password"); // Exclude passwords from the results
 
@@ -31,8 +30,8 @@ export async function getCurrentUserProfile(req, res) {
 
 // UPDATE USER PROFILE
 export async function updateUserProfile(req, res) {
-  const { fullName, role, skills } = req.body;
-  const updateData = { fullName, role, skills };
+  const { fullName, role, address, bio, skills, experience } = req.body;
+  const updateData = { fullName, role, address, bio, skills, experience };
   const user = await User.findByIdAndUpdate(req.user.userId, updateData, {
     new: true,
     runValidators: true,
@@ -45,6 +44,14 @@ export async function updateUserProfile(req, res) {
 
 // GET USER PROFILE BY ID
 export async function getUserProfileById(req, res) {
-  const user = await User.findById(req.params.id).select("-password");
-  res.status(200).json({ user });
+  try {
+    const user = await User.findById(req.params.id).select("-password");
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json({ user });
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    res.status(500).json({ error: "Server error" });
+  }
 }

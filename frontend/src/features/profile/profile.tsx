@@ -15,6 +15,7 @@ interface User {
   bio: string;
   skills: string;
   experience: string;
+  profilePic?: { url: string; public_id: string }; // profile picture
 }
 
 interface EditFormData {
@@ -27,10 +28,10 @@ interface EditFormData {
 }
 
 function Profile() {
-  const navigate = useNavigate(); // react router hook - route to another page
-  const { userId } = useParams(); // react router hook - get variable from url
-  const [user, setUser] = useState<User | null>(null); // user exists or null, default null
-  const [isEditing, setIsEditing] = useState(false); // toggles edit modal
+  const navigate = useNavigate();
+  const { userId } = useParams();
+  const [user, setUser] = useState<User | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<EditFormData>({
     fullName: "",
     role: "",
@@ -39,37 +40,37 @@ function Profile() {
     skills: "",
     experience: "",
   });
-  const [loading, setLoading] = useState(true); // loading state for fetch
-  const [saving, setSaving] = useState(false); // loading state for save
-  const [isOwnProfile, setIsOwnProfile] = useState(false); // check if profile belongs to current user
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [isOwnProfile, setIsOwnProfile] = useState(false);
+
+  // Profile picture states
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     fetchUserProfile();
   }, [userId]);
 
-  // Fetch data from backend (own vs other user's profile)
   const fetchUserProfile = async () => {
     try {
       let response;
       if (userId) {
-        // Fetching another user's profile data
+        console.log("Fetching user profile for ID:", userId);
         response = await axiosInstance.get(`/user/user/${userId}`);
         setIsOwnProfile(false);
       } else {
-        // Fetching own profile data
         response = await axiosInstance.get("/user/profile");
         setIsOwnProfile(true);
       }
 
-      // Get logged-in username from localStorage
       const currentUser = JSON.parse(
         localStorage.getItem("currentUser") || "{}"
       );
 
-      // store user data from backend to useState
+      console.log("Profile response:", response.data);
       setUser(response.data.user);
 
-      // initialize or update the form used for editing profile
       setEditForm({
         fullName: response.data.user.fullName || currentUser?.username || "",
         role: response.data.user.role || "Professional",
@@ -87,18 +88,14 @@ function Profile() {
   };
 
   const handleLogout = () => {
-    // Clears the authentication token and the stored user info from localStorage
     localStorage.removeItem("token");
     localStorage.removeItem("currentUser");
     navigate("/login");
   };
 
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
+  const handleEdit = () => setIsEditing(true);
 
   const handleCancel = () => {
-    // Closes the edit modal and resets the form to current user data
     setIsEditing(false);
     if (user) {
       setEditForm({
@@ -109,28 +106,15 @@ function Profile() {
         skills: user.skills || "",
         experience: user.experience || "experience",
       });
+      setSelectedFile(null);
     }
   };
 
-  // Sends a PUT request to update the profile on the backend
   const handleSave = async () => {
     try {
       setSaving(true);
-
-      // Collects the data from the edit form into requestData
-      const requestData: EditFormData = {
-        fullName: editForm.fullName,
-        role: editForm.role,
-        address: editForm.address,
-        bio: editForm.bio,
-        skills: editForm.skills,
-        experience: editForm.experience,
-      };
-
-      // Sends an HTTP PUT request to the endpoint
+      const requestData: EditFormData = { ...editForm };
       const response = await axiosInstance.put("/user/profile", requestData);
-
-      // Updates the user state with the newly updated profile
       setUser(response.data.user);
       setIsEditing(false);
       toast.success("Profile updated successfully");
@@ -141,36 +125,70 @@ function Profile() {
     }
   };
 
-  if (loading) {
-    return <div className="app-container">Loading...</div>;
-  }
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) setSelectedFile(e.target.files[0]);
+  };
 
-  if (!user) {
-    return <div className="app-container">User not found</div>;
-  }
+  const handleUpload = async () => {
+    if (!selectedFile) return toast.error("Please select an image first");
 
-  // user initial for pp
-  const getInitial = (fullName: string) => {
-    if (!fullName) return "";
-    return fullName[0].toUpperCase();
+    const formData = new FormData();
+    formData.append("image", selectedFile);
+
+    try {
+      setUploading(true);
+      
+      const res = await axiosInstance.post(
+        "/user/uploadProfilePic",
+        formData
+      );
+
+      console.log("Upload response:", res.data);
+      
+      setUser((prev) =>
+        prev ? { ...prev, profilePic: res.data.image } : prev
+      );
+      setSelectedFile(null);
+      
+      // Refresh the profile data to get updated user info
+      await fetchUserProfile();
+      
+      toast.success("Profile picture updated successfully!");
+    } catch (err: any) {
+      console.error("Upload error:", err);
+      toast.error(err.response?.data?.error || "Upload failed");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  if (loading) return <div className="app-container">Loading...</div>;
+  if (!user) return <div className="app-container">User not found</div>;
+
+  const getInitial = (fullName: string, username: string) => {
+    if (fullName) return fullName[0].toUpperCase();
+    if (username) return username[0].toUpperCase();
+    return "U";
   };
 
   return (
     <div className="app-container">
-      {/* Main content card */}
       <div className="profile-card">
-        {/* Sidebar */}
         <div className="sidebar">
-          {/* Profile Picture */}
-
           <div className="profile-pic-container">
-            <div className="profile-pic">{getInitial(user.username)}</div>
+            {user.profilePic?.url ? (
+              <img
+                src={user.profilePic.url}
+                alt="Profile"
+                className="profile-pic-img"
+              />
+            ) : (
+              <div className="profile-pic">{getInitial(user.fullName, user.username)}</div>
+            )}
           </div>
 
-          {/* User Name */}
           <h2 className="user-name-sidebar">{user.fullName}</h2>
 
-          {/* Navigation Links */}
           <nav className="nav-menu">
             <ul className="nav-list">
               <li>
@@ -194,43 +212,35 @@ function Profile() {
           </nav>
         </div>
 
-        {/* Main Content Area */}
         <div className="main-content">
           <div className="header-section">
-            <div>
-              <h1 className="user-name-main">{user.fullName}</h1>
-              <p className="role-main">{user.role}</p>
-            </div>
+            <h1 className="user-name-main">{user.fullName}</h1>
+            <p className="role-main">{user.role}</p>
           </div>
-          {/* Bio Section */}
+
           <div className="bio-section">
             <h2 className="section-heading">Bio</h2>
             <div className="bio-text" style={{ whiteSpace: "pre-wrap" }}>
               {user.bio || "No bio provided"}
             </div>
           </div>
-          {/* Address Section */}
+
           <div className="address-section">
             <h2 className="section-heading">Address</h2>
             <div>{user.address || "No address provided"}</div>
           </div>
-          {/* Skills Section */}{" "}
+
           <div className="skills-section">
-            {" "}
-            <h2 className="section-heading">Skills</h2>{" "}
+            <h2 className="section-heading">Skills</h2>
             <div className="skills-list">
-              {" "}
-              {user.skills
-                ?.split(/\n|,/) // split by newline or comma
-                .map((skill: string, index: number) => (
-                  <span key={index} className="skill-pill">
-                    {" "}
-                    {skill.trim()}{" "}
-                  </span>
-                )) || "No skills provided"}{" "}
-            </div>{" "}
+              {user.skills?.split(/\n|,/).map((skill, i) => (
+                <span key={i} className="skill-pill">
+                  {skill.trim()}
+                </span>
+              )) || "No skills provided"}
+            </div>
           </div>
-          {/* Experience Section */}
+
           <div className="experience-section">
             <h2 className="section-heading">Experience</h2>
             <div style={{ whiteSpace: "pre-wrap" }}>
@@ -240,11 +250,23 @@ function Profile() {
         </div>
       </div>
 
-      {/* Edit Modal - Only show for own profile */}
       {isEditing && isOwnProfile && (
         <div className="modal-overlay">
           <div className="modal">
             <h2>Edit Profile</h2>
+
+            {/* Profile Picture Upload */}
+            <div className="form-group">
+              <label>Profile Picture:</label>
+              <input type="file" accept="image/*" onChange={handleFileChange} />
+              <button
+                onClick={handleUpload}
+                disabled={uploading}
+                style={{ marginTop: "8px" }}
+              >
+                {uploading ? "Uploading..." : "Upload"}
+              </button>
+            </div>
 
             <div className="form-group">
               <label>Full Name:</label>

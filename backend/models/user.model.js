@@ -47,8 +47,12 @@ const userSchema = new Schema({
     default: "Professional Experience",
   },
   profilePic: { 
-    type: String, 
-    default: "" 
+    url: {
+      type: String,
+    },
+    public_id: {
+      type: String,
+    }
   },
   createdAt: {
     type: Date,

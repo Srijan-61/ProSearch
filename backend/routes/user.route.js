@@ -11,6 +11,8 @@ import {
 import { authMiddleware } from "../middleware/auth.middleware.js";
 import { me } from "../controllers/auth.controller.js";
 import User from "../models/user.model.js";
+import { uploadProfilePic } from "../controllers/profile-picture.controller.js";
+import { upload } from "../middleware/image-upload.middleware.js";
 
 // router.get("/list", authMiddleware, getUserList);
 router.get("/search", authMiddleware, searchUsers);
@@ -24,5 +26,8 @@ router.put("/profile", authMiddleware, updateUserProfile);
 
 // Get user by ID (for professional detail page)
 router.get("/user/:id", authMiddleware, getUserProfileById);
+
+// Profile picture upload route
+router.post("/uploadProfilePic", authMiddleware, upload.single("image"), uploadProfilePic);
 
 export default router;
