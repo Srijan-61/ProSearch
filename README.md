@@ -33,7 +33,7 @@ Backend (Implied/External):
 
 searchUsersApi - An assumed external API for fetching user data.
 
-Setup Instruction
+Setup Instruction:
 clone the repo
 cd backend
 npm i
@@ -53,7 +53,6 @@ Profile Page: The profile page displays a user's name, role, skills, and project
 
 🚀 Future Enhancements
 
-Profile Editing: Allow users to edit their profile information.
 
 Advanced Search Filters: Add filters for location, experience, specific skills, etc.
 
