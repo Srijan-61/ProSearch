@@ -33,6 +33,14 @@ Backend (Implied/External):
 
 searchUsersApi - An assumed external API for fetching user data.
 
+Setup Instruction:
+clone the repo
+cd backend
+npm i
+npm run dev
+cd frontend
+npm i
+npm run dev
 
 
 💡 Usage
@@ -42,31 +50,9 @@ Search: Type keywords into the search bar (e.g., "Srijan") and click "Search" or
 
 Profile Page: The profile page displays a user's name, role, skills, and projects.
 
-🛣️ Project Structure (Frontend)
-frontend/
-├── public/
-├── src/
-│   ├── assets/
-│   │   ├── profile-pic.jpg
-│   │   └── account.png
-│   ├── features/
-│   │   ├── home/
-│   │   │   ├── Home.tsx          # Main search page component
-│   │   │   └── home.css          # Styles for the Home component
-│   │   ├── profile/
-│   │   │   ├── Profile.tsx       # User profile page component
-│   │   │   └── profile.css       # Styles for the Profile component
-│   │   └── ... (other feature modules)
-│   └── shared/
-│       └── config/
-│           └── api.ts            # API service for search functionality
-│   └── App.tsx                   # Main application component (or similar)
-│   └── main.tsx                  # Entry point for the React application
-└── ... (other project files like package.json, tsconfig.json, vite.config.ts)
 
 🚀 Future Enhancements
 
-Profile Editing: Allow users to edit their profile information.
 
 Advanced Search Filters: Add filters for location, experience, specific skills, etc.
 
