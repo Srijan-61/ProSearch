@@ -17,16 +17,26 @@ A simple web app to search and find professionals like developers and designers.
 - React - for building the website
 - TypeScript - for better code
 - CSS - for styling and design
+- React Router - for page navigation
+- React Toastify - for popup notifications
+- Axios - for making API calls
 
 ### Backend (server stuff)
 - Node.js - runs the server
 - MongoDB - stores user data
 - Express - handles web requests
+- Mongoose - connects to MongoDB
+- JWT - for user authentication
+- Bcrypt - for password security
+- Cloudinary - for image uploads
+- Multer - for handling file uploads
 
 ## What you need before starting
 
 - Node.js version 18.x or newer
 - MongoDB database
+
+**Note:** All other libraries (React Toastify, Axios, JWT, etc.) will be automatically installed when you run `npm install` in the setup steps below.
 
 ## How to run the project
 
