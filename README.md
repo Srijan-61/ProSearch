@@ -32,23 +32,27 @@ A simple web app to search and find professionals like developers and designers.
 
 ### Step 1: Download the code
 
-git clone <https://github.com/Srijan-61/ProSearch.git>
+```bash
+git clone https://github.com/Srijan-61/ProSearch.git
 cd ProSearch
+```
 
 ### Step 2: Setup the backend (server)
 
+```bash
 cd backend
 npm install
+```
 
 Start the server:
-```
+```bash
 npm run dev
 ```
 
 ### Step 3: Setup the frontend (website)
 
 Open a new terminal:
-```
+```bash
 cd frontend
 npm install
 npm run dev
