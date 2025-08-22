@@ -1,61 +1,70 @@
-ProSearch Website
-ProSearch is a modern web application designed to help users find professionals like engineers, designers, and developers. It features a clean, responsive interface and a dynamic search functionality to connect users with the right talent.
+# ProSearch
 
-🌟 Features
-Professional Search: Search for professionals based on their name, roles or skills.
+A simple web app to search and find professionals like developers and designers.
 
-Dynamic Search Results: Displays search results in a responsive grid.
+## What it does
 
-Intuitive User Interface: Clean and easy-to-navigate design.
+- Create an account and login
+- Search for people by their name or job
+- See profiles with skills and information
+- Upload profile pictures
+- Edit your profile
+- Works on phones and computers
 
-User Profile Page: A dedicated page to display a professional's skills and projects.
+## What we used to build it
 
-Responsive Design: Optimized for various screen sizes (mobile, tablet, desktop).
+### Frontend (what users see)
+- React - for building the website
+- TypeScript - for better code
+- CSS - for styling and design
 
-User Authentication: Implement full user login/registration.
+### Backend (server stuff)
+- Node.js - runs the server
+- MongoDB - stores user data
+- Express - handles web requests
 
-Dynamic Profile Data: Fetch profile data from a backend API.
+## What you need before starting
 
-🚀 Technologies Used
-Frontend:
+- Node.js version 18.x or newer
+- MongoDB database
 
-React - A JavaScript library for building user interfaces.
+## How to run the project
 
-Vite - A fast build tool for modern web projects.
+### Step 1: Download the code
 
-TypeScript - Typed JavaScript at Scale.
+git clone <https://github.com/Srijan-61/ProSearch.git>
+cd ProSearch
 
-[Vanilla CSS] - For custom styling.
+### Step 2: Setup the backend (server)
 
-React Router DOM - For declarative routing in React applications.
-
-Backend (Implied/External):
-
-searchUsersApi - An assumed external API for fetching user data.
-
-Setup Instruction:
-clone the repo
 cd backend
-npm i
+npm install
+
+Start the server:
+```
 npm run dev
+```
+
+### Step 3: Setup the frontend (website)
+
+Open a new terminal:
+```
 cd frontend
-npm i
+npm install
 npm run dev
+```
+
+### Step 4: Open the website
+- Go to http://localhost:5173 in your browser
+- The server runs on http://localhost:5000
 
 
-💡 Usage
-Navigation: Use the "Account" link in the header to navigate to the profile page.
 
-Search: Type keywords into the search bar (e.g., "Srijan") and click "Search" or press Enter to find professionals.
+## Future ideas
 
-Profile Page: The profile page displays a user's name, role, skills, and projects.
+- Add messaging between users
+- Better search filters
+- Mobile app version
 
-
-🚀 Future Enhancements
-
-
-Advanced Search Filters: Add filters for location, experience, specific skills, etc.
-
-Contact Professionals: Add a feature to connect with listed professionals.
-
+---
 
